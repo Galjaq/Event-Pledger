@@ -1,11 +1,19 @@
 package com.events.test;
 
+import com.events.test.event.domain.Event;
+import com.events.test.event.domain.EventRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.List;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private EventRepository eventRepository;
+
     @RequestMapping(value = "/")
     public ModelAndView index() {
         ModelAndView mav = new ModelAndView("index/index");
@@ -20,9 +28,10 @@ public class IndexController {
     public ModelAndView ololo() {
         ModelAndView mav = new ModelAndView("index/index");
 
-        String msg = "Running IndexController.ololo() method";
+        List<Event> msg = eventRepository.getAll();
 
-        mav.addObject("msg", msg);
+        mav.addObject("msg", msg.get(0).getTopic());
+
         return mav;
     }
 }
