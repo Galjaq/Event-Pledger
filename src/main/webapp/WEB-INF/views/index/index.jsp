@@ -1,7 +1,10 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <body>
-<h2>Hello World!</h2>
 
-<h3>${msg}</h3>
+<c:forEach items="${events}" var="event">
+    <p>${event}</p>
+</c:forEach>
 </body>
 </html>
