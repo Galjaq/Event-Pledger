@@ -6,20 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
-@Controller
+@RestController
 public class IndexController {
 
     @Autowired
     private EventRepository eventRepository;
 
     @RequestMapping(value = "/")
-    public String index(Model model) {
+    public List index() {
         List<Event> events = eventRepository.getAll();
-        model.addAttribute("events", events);
+//        model.addAttribute("events", events);
 
-        return "index/index";
+        return events;
     }
 }
