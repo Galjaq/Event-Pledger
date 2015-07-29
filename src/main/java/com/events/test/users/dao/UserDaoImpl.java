@@ -1,7 +1,9 @@
 package com.events.test.users.dao;
 
 import com.events.test.users.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,18 +18,12 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	public User findByUserName(String username) {
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(User.class)
+                .add(Restrictions.eq("username", username))
+                .setMaxResults(1);
 
-		List<User> users = new ArrayList<User>();
-
-		users = sessionFactory.getCurrentSession().createQuery("from User where username=?").setParameter(0, username)
-				.list();
-
-		if (users.size() > 0) {
-			return users.get(0);
-		} else {
-			return null;
-		}
-
+        return (User) criteria.uniqueResult();
 	}
 
 }

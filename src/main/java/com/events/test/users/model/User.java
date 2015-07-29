@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", catalog = "test")
+@Table(name = "users")
 public class User {
 
 	private String username;
