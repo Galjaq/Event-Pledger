@@ -1,17 +1,24 @@
 package com.events.test.users.model;
 
+import com.events.test.util.database.Identity;
+
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends Identity {
 
 	private String username;
 	private String password;
 	private boolean enabled;
-	private Set<UserRole> userRole = new HashSet<UserRole>(0);
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "roles_users", joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    private Set<Role> roles;
 
 	public User() {
 	}
@@ -22,14 +29,6 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public User(String username, String password, boolean enabled, Set<UserRole> userRole) {
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-		this.userRole = userRole;
-	}
-
-	@Id
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	public String getUsername() {
 		return this.username;
@@ -57,13 +56,16 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<UserRole> getUserRole() {
-		return this.userRole;
-	}
+    public Set<Role> getUserRoles() {
+        if (roles == null)
+            return Collections.<Role> emptySet();
+        return Collections.unmodifiableSet(roles);
+    }
 
-	public void setUserRole(Set<UserRole> userRole) {
-		this.userRole = userRole;
-	}
+    public void addUserRole(Role role) {
+        if (roles == null)
+            roles = new HashSet<Role>();
+        roles.add(role);
+    }
 
 }

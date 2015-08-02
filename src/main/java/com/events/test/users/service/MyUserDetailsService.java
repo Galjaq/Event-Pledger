@@ -1,6 +1,7 @@
 package com.events.test.users.service;
 
 import com.events.test.users.dao.UserDao;
+import com.events.test.users.model.Role;
 import com.events.test.users.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,30 +29,16 @@ public class MyUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 	
 		com.events.test.users.model.User user = userDao.findByUserName(username);
-		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
-		return buildUserForAuthentication(user, authorities);
-		
+        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+        for(Role role : user.getUserRoles()) {
+            roles.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
+        UserDetails userDetails =
+                new org.springframework.security.core.userdetails.User(user.getUsername(),
+                        user.getPassword(),
+                        roles);
+
+        return userDetails;
 	}
-
-	// Converts com.mkyong.users.model.User user to
-	// org.springframework.security.core.userdetails.User
-	private User buildUserForAuthentication(com.events.test.users.model.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
-	}
-
-	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-		}
-
-		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
-
-		return Result;
-	}
-
 }

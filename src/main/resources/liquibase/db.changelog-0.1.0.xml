@@ -9,7 +9,7 @@
     <changeSet id="initall" author="galynka">
         <sql>
             CREATE TABLE `event` (
-            `id` varchar(32) NOT NULL,
+            `id` varchar(36) NOT NULL,
             `topic` varchar(45) DEFAULT 'null',
             `description` varchar(255) DEFAULT NULL,
             `pic` varchar(45) DEFAULT NULL,
@@ -22,7 +22,7 @@
             INSERT INTO `event` VALUES ('1','test topic','descrition',NULL,1,10);
 
             CREATE TABLE `review` (
-            `id` varchar(16) NOT NULL,
+            `id` varchar(36) NOT NULL,
             `topic` varchar(45) DEFAULT NULL,
             `description` varchar(45) DEFAULT NULL,
             `event_id` varchar(16) DEFAULT NULL,
@@ -33,28 +33,31 @@
             INSERT INTO `review` VALUES ('1','1','1','1');
 
             CREATE TABLE `users` (
+            `id` varchar(36) NOT NULL,
             `username` varchar(45) NOT NULL,
             `password` varchar(60) NOT NULL,
             `enabled` tinyint(4) NOT NULL DEFAULT '1',
-            PRIMARY KEY (`username`)
+            PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            INSERT INTO `users` VALUES ('galynka','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y',1),('admin','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y',1);
+            INSERT INTO `users` VALUES ('4302784a-395a-11e5-95b6-edcb34a18ddd', 'galynka','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y',1),('302784a-395a-11e5-95b6-edcb34a18dde','admin','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y',1);
 
-            CREATE TABLE `user_roles` (
-            `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
-            `username` varchar(45) NOT NULL,
-            `role` varchar(45) NOT NULL,
-            PRIMARY KEY (`user_role_id`),
-            UNIQUE KEY `uni_username_role` (`role`,`username`),
-            KEY `fk_username_idx` (`username`),
-            CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+            CREATE TABLE `roles` (
+            `id` varchar(36) NOT NULL,
+            `roleName` varchar(50) NOT NULL,
+            `roleDescription` varchar(200) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `roleName` (`roleName`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-            --
-            -- Dumping data for table `user_roles`
-            --
-            INSERT INTO `user_roles` VALUES (2,'admin','ROLE_ADMIN'),(3,'galynka','ROLE_USER'),(1,'admin','ROLE_USER');
+            INSERT INTO `roles` VALUES ('4300e142-395a-11e5-95b6-edcb34a18ddd','SUPERADMIN','Superadmin role'),('4300e3a4-395a-11e5-95b6-edcb34a18ddd','USER','Basic user role');
+
+            CREATE TABLE `roles_users` (
+            `user_id` varchar(36) NOT NULL,
+            `role_id` varchar(36) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+            INSERT INTO `roles_users` VALUES ('4302784a-395a-11e5-95b6-edcb34a18ddd','4300e142-395a-11e5-95b6-edcb34a18ddd');
         </sql>
     </changeSet>
 
