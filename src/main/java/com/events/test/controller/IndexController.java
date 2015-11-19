@@ -18,7 +18,12 @@ public class IndexController {
     private EventRepository eventRepository;
 
     @RequestMapping(value = "/")
-    public @ResponseBody List<Event> index() {
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping(value = "/events")
+    public @ResponseBody List<Event> getEvents() {
         List<Event> events = eventRepository.getAll();
 
         return events;
@@ -31,5 +36,4 @@ public class IndexController {
 
         return "admin";
     }
-
 }
