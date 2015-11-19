@@ -1,9 +1,8 @@
-package com.events.test.event.domain;
+package com.events.test.entity;
 
 import com.events.test.util.database.Identity;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity

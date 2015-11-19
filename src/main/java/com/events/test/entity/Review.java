@@ -1,5 +1,6 @@
-package com.events.test.event.domain;
+package com.events.test.entity;
 
+import com.events.test.entity.Event;
 import com.events.test.util.database.Identity;
 
 import javax.persistence.*;

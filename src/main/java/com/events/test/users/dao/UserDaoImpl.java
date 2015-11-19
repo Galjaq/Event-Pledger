@@ -1,14 +1,11 @@
 package com.events.test.users.dao;
 
-import com.events.test.users.model.User;
+import com.events.test.users.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {

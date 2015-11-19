@@ -1,4 +1,4 @@
-package com.events.test.users.model;
+package com.events.test.users.entity;
 
 import javax.persistence.*;
 

@@ -13,5 +13,4 @@ public class LoginController {
     public String loginPage(Model model){
         return "login";
     }
-
 }

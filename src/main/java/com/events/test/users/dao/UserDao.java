@@ -1,6 +1,6 @@
 package com.events.test.users.dao;
 
-import com.events.test.users.model.User;
+import com.events.test.users.entity.User;
 
 public interface UserDao {
 
