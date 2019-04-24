@@ -16,7 +16,7 @@ public class IndexController {
         return mav;
     }
 
-    @RequestMapping(value = "/ololo")
+    @RequestMapping(value = "/ololo1222")
     public ModelAndView ololo() {
         ModelAndView mav = new ModelAndView("index/index");
 
